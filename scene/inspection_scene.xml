@@ -1,0 +1,76 @@
+<mujoco model="inspection_scene">
+  <compiler angle="radian" autolimits="true"/>
+
+  <option timestep="0.004" gravity="0 0 -9.81" iterations="50" solver="Newton"/>
+
+  <asset>
+    <texture name="floor_tex" type="2d" builtin="checker"
+             rgb1="0.4 0.4 0.4" rgb2="0.35 0.35 0.35" width="512" height="512"/>
+    <material name="floor_mat" texture="floor_tex" texrepeat="8 8" reflectance="0.1"/>
+    <material name="table_mat" rgba="0.55 0.45 0.35 1" reflectance="0.05"/>
+    <material name="bin_mat" rgba="0.7 0.2 0.1 1" reflectance="0.1"/>
+    <material name="part_good" rgba="0.2 0.75 0.2 1"/>
+    <material name="part_crack" rgba="0.85 0.1 0.1 1"/>
+    <material name="part_discolor" rgba="0.25 0.25 0.25 1"/>
+  </asset>
+
+  <worldbody>
+    <!-- Floor -->
+    <geom name="floor" type="plane" size="5 5 0.1" material="floor_mat" friction="1 0.1 0.1"/>
+
+    <!-- Lighting: 3 programmable lights -->
+    <light name="light_main" pos="0 0 3" dir="0 0 -1" diffuse="0.8 0.8 0.8" specular="0.2 0.2 0.2" castshadow="true"/>
+    <light name="light_left" pos="-2 0 2.5" dir="0.5 0 -1" diffuse="0.4 0.4 0.5" specular="0.1 0.1 0.1"/>
+    <light name="light_right" pos="2 0 2.5" dir="-0.5 0 -1" diffuse="0.4 0.5 0.4" specular="0.1 0.1 0.1"/>
+
+    <!-- Work table -->
+    <body name="work_table" pos="0.85 0 0">
+      <geom name="table_top" type="box" size="0.35 0.25 0.02"
+            pos="0 0 0.76" material="table_mat" friction="0.8 0.1 0.1"/>
+      <geom name="table_leg_fl" type="box" size="0.03 0.03 0.37"
+            pos="-0.30 -0.20 0.37"/>
+      <geom name="table_leg_fr" type="box" size="0.03 0.03 0.37"
+            pos=" 0.30 -0.20 0.37"/>
+      <geom name="table_leg_bl" type="box" size="0.03 0.03 0.37"
+            pos="-0.30  0.20 0.37"/>
+      <geom name="table_leg_br" type="box" size="0.03 0.03 0.37"
+            pos=" 0.30  0.20 0.37"/>
+    </body>
+
+    <!-- Reject bin (red tray on floor to robot's left) -->
+    <body name="reject_bin" pos="-0.5 0.7 0">
+      <geom name="bin_bottom" type="box" size="0.20 0.15 0.01" pos="0 0 0.05" material="bin_mat"/>
+      <geom name="bin_wall_l" type="box" size="0.01 0.15 0.08" pos="-0.19 0 0.13" material="bin_mat"/>
+      <geom name="bin_wall_r" type="box" size="0.01 0.15 0.08" pos=" 0.19 0 0.13" material="bin_mat"/>
+      <geom name="bin_wall_b" type="box" size="0.20 0.01 0.08" pos="0 -0.14 0.13" material="bin_mat"/>
+      <geom name="bin_wall_f" type="box" size="0.20 0.01 0.08" pos="0  0.14 0.13" material="bin_mat"/>
+    </body>
+
+    <!-- Inspection parts (spawned/moved via script; initially off-scene) -->
+    <body name="part_0" pos="0.85 0 0.79">
+      <freejoint/>
+      <geom name="part_0_geom" type="box" size="0.04 0.04 0.025"
+            material="part_good" mass="0.05"/>
+    </body>
+    <body name="part_1" pos="0.85 0 5.0">
+      <freejoint/>
+      <geom name="part_1_geom" type="box" size="0.04 0.04 0.025"
+            material="part_crack" mass="0.05"/>
+    </body>
+    <body name="part_2" pos="0.85 0 5.0">
+      <freejoint/>
+      <geom name="part_2_geom" type="box" size="0.04 0.04 0.025"
+            material="part_discolor" mass="0.05"/>
+    </body>
+
+    <!-- G1 robot: included from unitree_mujoco repo.
+         Positioned standing beside the table, facing it. -->
+    <include file="../unitree_mujoco/unitree_robots/g1/g1.xml"/>
+
+  </worldbody>
+
+  <actuator>
+    <!-- G1 actuators are defined in the included g1.xml -->
+  </actuator>
+
+</mujoco>

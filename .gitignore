@@ -1,0 +1,29 @@
+# Python
+.venv/
+.venv312/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Training data (regenerate with python vision/generate_data.py)
+data/images/
+data/labels/
+data/augmented/
+
+# YOLO run outputs
+runs/
+output/
+
+# Logs
+MUJOCO_LOG.TXT
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Installers
+*.exe
+*.bat
+*.cmd

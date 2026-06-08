@@ -1,0 +1,5 @@
+$ErrorActionPreference = 'Stop'
+Set-Location 'e:\huminoid\external\unitree_mujoco\example\python'
+$env:CYCLONEDDS_HOME = 'e:\huminoid\external\cyclonedds\install_vs'
+$env:CMAKE_PREFIX_PATH = 'e:\huminoid\external\cyclonedds\install_vs'
+& 'e:\huminoid\.venv312\Scripts\python.exe' 'teleop_go2_keyboard.py'

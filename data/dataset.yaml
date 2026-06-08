@@ -1,0 +1,9 @@
+path: C:/huminoid/data
+train: images/train
+val: images/val
+
+nc: 3
+names:
+  0: good
+  1: defect_crack
+  2: defect_discolor
